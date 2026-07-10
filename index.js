@@ -22,6 +22,12 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5100;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
+// Solo levantar el servidor con app.listen si NO estamos en el entorno de Vercel
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  });
+}
+
+// CRUCIAL: Exportar app para que Vercel Serverless pueda leerlo
+module.exports = app;
